@@ -54,10 +54,10 @@ public class InterfaceTexto {
 	}
 	
 	private void imprimeMenuAutor() {
-		System.out.println("1 - Adicionar cliente");
-		System.out.println("2 - Editar cliente");
-		System.out.println("3 - Excluir cliente");
-		System.out.println("4 - Listar clientes");
+		System.out.println("1 - Adicionar autor");
+		System.out.println("2 - Editar autor");
+		System.out.println("3 - Excluir autor");
+		System.out.println("4 - Listar autores");
 	}
 	
 	private void imprimeMenuLivro() {

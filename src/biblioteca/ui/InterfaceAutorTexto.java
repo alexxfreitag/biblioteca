@@ -16,14 +16,49 @@ public class InterfaceAutorTexto extends InterfaceModeloTexto {
 	
 	private Autor obtemDadosAutor(Autor autor) {
 		
+		boolean erro_processo = false;
+		String nome_autor = "";
+		Long cpf_autor;
+		do {
+			
+			nome_autor = lerNome();
+			if (nome_autor.trim().contains(" ")) {
+				
+				System.out.println("ATENÇÃO! Apenas o primeiro nome.\n");
+				erro_processo = true;
+			} else erro_processo = false;
+			
+		} while (erro_processo);
+		
+		do {
+			
+			cpf_autor = lerCPF();
+			if (cpf_autor.toString().length() != 11) {
+				
+				System.out.println("ATENÇÃO! Deve-se digitar 11 números.\n");
+				erro_processo = true;
+			} else erro_processo = false;
+			
+		} while (erro_processo);
+		
+		Autor novoAutor = new Autor(0, nome_autor, cpf_autor);
+		
+		return novoAutor;
+	}
+	
+	private String lerNome(){
+		
 		System.out.print("Insira o nome do autor: ");
 		String nome = entrada.nextLine().toUpperCase();
+		return nome;
+		
+	}
+	
+	private long lerCPF(){
 		
 		System.out.println("Insira o CPF do autor (somente números): ");
 		Long cpf = entrada.nextLong();
-		Autor novoAutor = new Autor(0, nome, cpf);
-		
-		return novoAutor;
+		return cpf;
 	}
 	
 	@Override
@@ -40,15 +75,24 @@ public class InterfaceAutorTexto extends InterfaceModeloTexto {
 	public void listarTodos() {
 		List<Autor> autores = dao.getAll();
 		
-		System.out.println("Lista de autores");
-		System.out.println();
-		
-		System.out.println("id\tNome\tCPF");
-		
-		for (Autor autor : autores) {
-			imprimeItem(autor);
+		if (!autores.isEmpty()) {
+			System.out.println("Lista de autores");
+			System.out.println();
+			
+			System.out.println("id\tNome\tCPF");
+			
+			for (Autor autor : autores) {
+				imprimeItem(autor);
+			}
+		} else {
+			
+			System.out.println("\nNão existem autores cadastrados. Caso deseja adicionar um, entre com o número 1.");
+			int opcao = entrada.nextInt();
+			System.out.println();
+			
+			if (opcao == 1)
+				adicionar();
 		}
-		
 	}
 
 	@Override

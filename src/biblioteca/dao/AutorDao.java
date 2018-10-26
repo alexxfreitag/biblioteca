@@ -73,7 +73,7 @@ public class AutorDao implements Dao<Autor>{
 				autor = getAutorFromRS(rs);
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao obter cliente pela chave.", e);
+			throw new RuntimeException("Erro ao obter autor pela chave.", e);
 		} finally {
 			close(conn, stmt, rs);
 		}
@@ -100,7 +100,7 @@ public class AutorDao implements Dao<Autor>{
 			}			
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao obter todos os clientes.", e);
+			throw new RuntimeException("Erro ao obter todos os autores.", e);
 		} finally {
 			close(conn, stmt, rs);
 		}
@@ -129,7 +129,7 @@ public class AutorDao implements Dao<Autor>{
 				autor.setId(rs.getInt(1));
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao inserir cliente.", e);
+			throw new RuntimeException("Erro ao inserir o autor.", e);
 		}finally {
 			close(conn, stmt, rs);
 		}
@@ -147,7 +147,7 @@ public class AutorDao implements Dao<Autor>{
 			
 			stmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao remover cliente.", e);
+			throw new RuntimeException("Erro ao remover o autor.", e);
 		} finally {
 			close(conn, stmt, null);
 		}
@@ -167,7 +167,7 @@ public class AutorDao implements Dao<Autor>{
 			stmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			throw new RuntimeException("Erro ao atualizar cliente.", e);
+			throw new RuntimeException("Erro ao atualizar o autor.", e);
 		} finally {
 			close(conn, stmt, null);
 		}
