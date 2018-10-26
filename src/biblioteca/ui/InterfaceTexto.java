@@ -78,7 +78,7 @@ public class InterfaceTexto {
 				estadoAtual = opcao == OP_CLIENTE ? Estado.CLIENTE : Estado.CONTA;
 			} else {
 				subMenu = estadoAtual == Estado.CLIENTE ? 
-						new InterfaceAutorTexto() : new InterfaceAutorTexto();
+						new InterfaceAutorTexto() : new InterfaceLivroTexto();
 				
 				switch (opcao) {
 				case OP_ADICIONAR:

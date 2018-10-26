@@ -8,14 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import biblioteca.dao.DbConnection;
-import biblioteca.modelo.Livro;
 import biblioteca.modelo.Autor;
 
 public class AutorDao implements Dao<Autor>{
-
+	
+	private static final String GET_BY_ID = "SELECT * FROM autor WHERE id = ?";
 	public static final String GET_ALL = "SELECT * FROM autor";
-	public static final String INSERT = "INSERT INTO autor VALUES (?, ?, ?) ";
+	public static final String INSERT = "INSERT INTO autor (nome, cpf) VALUES (?, ?) ";
 	public static final String DELETE = "DELETE FROM autor WHERE id = ?";
 	public static final String UPDATE = "UPDATE autor SET nome = ?, cpf = ? WHERE id = ?";
 	
@@ -28,12 +27,12 @@ public class AutorDao implements Dao<Autor>{
 		}
 	}
 	
-	//criação da tabela autor
+	//criaï¿½ï¿½o da tabela autor
 	private void createTable() throws SQLException {
 	    String sqlCreate = "CREATE TABLE IF NOT EXISTS autor"
 	            + "  (id           INTEGER,"
 	            + "   nome            VARCHAR(50),"
-	            + "   cpf			  BIGINT,"
+	            + "   cpf			  LONG,"
 	            + "   PRIMARY KEY (id))";
 	    
 	    Connection conn = DbConnection.getConnection();
@@ -52,7 +51,32 @@ public class AutorDao implements Dao<Autor>{
 		
 		autor.setId( rs.getInt("id"));
 		autor.setNome( rs.getString("nome"));
-		autor.setCpf( rs.getInt("cpf"));
+		autor.setCpf( rs.getLong("cpf"));
+		
+		return autor;
+	}
+	
+	@Override
+	public Autor getByKey(int id) {
+		Connection conn = DbConnection.getConnection();
+		
+		Autor autor = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = conn.prepareStatement(GET_BY_ID);
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				autor = getAutorFromRS(rs);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("Erro ao obter cliente pela chave.", e);
+		} finally {
+			close(conn, stmt, rs);
+		}
 		
 		return autor;
 	}
@@ -96,7 +120,7 @@ public class AutorDao implements Dao<Autor>{
 			
 			stmt = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS); 
 			stmt.setString(1, autor.getNome());
-			stmt.setInt(1, autor.getCpf());
+			stmt.setLong(2, autor.getCpf());
 			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
@@ -149,7 +173,7 @@ public class AutorDao implements Dao<Autor>{
 		}
 	}
 	
-	//fechamento das conexões abertas
+	//fechamento das conexï¿½es abertas
 	private static void close(Connection myConn, Statement myStmt, ResultSet myRs) {
 		try {
 			if (myRs != null) {

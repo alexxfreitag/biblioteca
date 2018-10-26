@@ -17,11 +17,10 @@ public class InterfaceAutorTexto extends InterfaceModeloTexto {
 	private Autor obtemDadosAutor(Autor autor) {
 		
 		System.out.print("Insira o nome do autor: ");
-		String nome = entrada.nextLine();
+		String nome = entrada.nextLine().toUpperCase();
 		
 		System.out.println("Insira o CPF do autor (somente números): ");
-		int cpf = entrada.nextInt();
-		entrada.nextLine();
+		Long cpf = entrada.nextLong();
 		Autor novoAutor = new Autor(0, nome, cpf);
 		
 		return novoAutor;
@@ -29,7 +28,7 @@ public class InterfaceAutorTexto extends InterfaceModeloTexto {
 	
 	@Override
 	public void adicionar() {
-		System.out.println("Adicionar cliente");
+		System.out.println("Adicionar autor");
 		System.out.println();
 		
 		Autor novoAutor = obtemDadosAutor(null);	
